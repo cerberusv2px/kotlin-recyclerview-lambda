@@ -7,10 +7,10 @@ import android.view.ViewGroup
 import android.widget.TextView
 
 class StudentAdapter(
-        var studentList: List<Student>,
-        private val listener: (Student, Int) -> Unit
+        var studentList: List<Student>
 ) : RecyclerView.Adapter<StudentAdapter.StudentViewHolder>() {
 
+    lateinit var mStudentListener: StudentListener
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): StudentViewHolder {
         val itemView = LayoutInflater.from(parent.context)
@@ -26,14 +26,20 @@ class StudentAdapter(
         val student = studentList[position]
         holder.studentName.text = student.name
         holder.itemView.setOnClickListener {
-            listener(student, position)
+            mStudentListener.onStudentClick(student, position)
         }
     }
 
+
+    fun setStudentClickListener(studentListener: StudentListener) {
+        mStudentListener = studentListener
+    }
 
     class StudentViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         var studentName: TextView = itemView.findViewById(R.id.textView)
 
 
     }
+
+
 }
